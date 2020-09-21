@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments.html :: head"></head>
+<body class="bg-light">
+    <div th:replace="fragments.html :: main-nav"></div>
+    <div class="container">
+        <div class="py-5 text-center">
+            <h2>프로필</h2>
+        </div>
+        <div class="row mt-3 justify-content-center">
+        <div class="col-8">
+            <div class="tab-content" id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                    <p th:if="${!#strings.isEmpty(account.name)}">
+                            <span style="font-size: 20px;">
+                                <i class="fas fa-address-card col-1"></i>
+                            </span>
+                        <span th:text="${account.name}" class="col-11"></span>
+                    </p>
+                    <p th:if="${!#strings.isEmpty(account.location)}">
+                            <span style="font-size: 20px;">
+                                <i class="fas fa-map-marker-alt col-1"></i>
+                            </span>
+                        <span th:text="${account.location}" class="col-9"></span>
+                    </p>
+                    <p th:if="${!#strings.isEmpty(account.detailsLocation)}">
+                            <span style="font-size: 20px;">
+                                <i class="fas fa-map-marker-alt col-1"></i>
+                            </span>
+                        <span th:text="${account.detailsLocation}" class="col-9"></span>
+                    </p>
+                    <p th:if="${!#strings.isEmpty(account.email)}">
+                            <span style="font-size: 20px;">
+                                <i class="far fa-envelope col-1"></i>
+                            </span>
+                        <span th:text="${account.email}" class="col-9"></span>
+                    </p>
+
+                    <div th:if="${isOwner}">
+                        <a class="btn btn-outline-primary" href="#" th:href="@{/settings/profile}">프로필 수정</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
