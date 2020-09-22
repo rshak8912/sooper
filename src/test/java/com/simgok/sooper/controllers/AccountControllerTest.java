@@ -46,7 +46,7 @@ class AccountControllerTest {
     @Test
     void signUpSubmit_with_wrong_input() throws Exception {
         mockMvc.perform(post("/sign-up")
-                .param("name", "gildong")
+                .param("nickName", "gildong")
                 .param("email", "email")
                 .param("password", "12345")
                 .with(csrf()))
@@ -58,7 +58,7 @@ class AccountControllerTest {
     @Test
     void signUpSubmit_with_correct_input() throws Exception {
         mockMvc.perform(post("/sign-up")
-                .param("name", "seunghak")
+                .param("nickName", "seunghak")
                 .param("email", "gildong@email.com")
                 .param("password", "123123123")
                 .with(csrf()))
@@ -76,7 +76,7 @@ class AccountControllerTest {
     @Test
     void signUpSubmit_with_correct_input_admin() throws Exception {
         mockMvc.perform(post("/sign-up")
-                .param("name", "admin")
+                .param("nickName", "admin")
                 .param("email", "gildong@email.com")
                 .param("password", "123123123")
                 .with(csrf()))

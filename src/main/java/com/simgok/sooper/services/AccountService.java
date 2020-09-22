@@ -1,9 +1,6 @@
 package com.simgok.sooper.services;
 
-import com.simgok.sooper.model.Account;
-import com.simgok.sooper.model.Role;
-import com.simgok.sooper.model.SignUpForm;
-import com.simgok.sooper.model.UserAccount;
+import com.simgok.sooper.model.*;
 import com.simgok.sooper.repositories.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,13 +30,13 @@ public class AccountService implements UserDetailsService {
 
     private Account saveNewAccount(@Valid SignUpForm signUpForm) {
         Role role = Role.USER;
-        if (signUpForm.getName().equals("admin")) {
+        if (signUpForm.getNickName().equals("admin")) {
             role=Role.ADMIN;
         }
         Account account = Account.builder()
                 .email(signUpForm.getEmail())
-                .name(signUpForm.getName())
-                .password(passwordEncoder.encode(signUpForm.getPassword())) // TODO encoding 해야함
+                .nickName(signUpForm.getNickName())
+                .password(passwordEncoder.encode(signUpForm.getPassword()))
                 .role(role)
                 .location(signUpForm.getLocation())
                 .detailsLocation(signUpForm.getDetailsLocation())
@@ -49,7 +46,7 @@ public class AccountService implements UserDetailsService {
     }
 
     public void login(Account account) {
-        if (account.getName().equals("관리자") || account.getName().equals("admin")) {
+        if (account.getNickName().equals("관리자") || account.getNickName().equals("admin")) {
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                     new UserAccount(account),
                     account.getPassword(),
@@ -68,11 +65,18 @@ public class AccountService implements UserDetailsService {
     public UserDetails loadUserByUsername(String emailOrName) throws UsernameNotFoundException {
         Account account = accountRepository.findByEmail(emailOrName);
         if (account == null) {
-            account = accountRepository.findByName(emailOrName);
+            account = accountRepository.findByNickName(emailOrName);
         }
         if (account == null) {
             throw new UsernameNotFoundException(emailOrName);
         }
         return new UserAccount(account);
+    }
+
+    public void updateProfile(Account account, Profile profile) {
+        account.setEmail(profile.getEmail());
+        account.setLocation(profile.getLocation());
+        account.setDetailsLocation(profile.getDetailsLocation());
+        accountRepository.save(account);
     }
 }

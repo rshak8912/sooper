@@ -37,7 +37,7 @@ class MainControllerTest {
         signUpForm.setDetailsLocation("123-45번지");
         signUpForm.setEmail("rshak123@gmail.com");
         signUpForm.setLocation("분당구 야탑동");
-        signUpForm.setName("홍길동");
+        signUpForm.setNickName("홍길동");
         signUpForm.setPassword("123123123");
 
         accountService.processNewAccount(signUpForm);

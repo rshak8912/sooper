@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments.html :: head"></head>
+<body class="bg-light">
+<div th:replace="fragments.html :: main-nav"></div>
+<div class="container">
+    <div class="row mt-5 justify-content-center">
+        <div class="col-6">
+            <div th:if="${message}" class="alert alert-info alert-dismissible fade show mt-3 col-6" role="alert">
+                <span th:text="${message}">메시지</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="row justify-content-center">
+                <h2 class="col-sm-12" th:text="${account.nickName}">honggildong</h2>
+            </div>
+            <div class="row mt-3">
+                <form class="col-sm-6" action="#"
+                      th:action="@{/settings/profile}" th:object="${profile}" method="post" novalidate>
+                    <div class="form-group">
+                        <label for="email">이메일</label>
+                        <input id="email" type="email" th:field="*{email}" class="form-control"
+                               placeholder="your@email.com" aria-describedby="emailHelp" required>
+                        <small id="emailHelp" class="form-text text-muted">
+                            이메일 형식에 맞게 작성해주세요.
+                        </small>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
+                            조금 길어요.
+                        </small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location">주소</label>
+                        <input id="location" type="text" th:field="*{location}" class="form-control"
+                               placeholder="분당구 야탑동" aria-describedby="locationHelp" required>
+                        <small id="locationHelp" class="form-text text-muted">
+                            주소를 입력해주세요.
+                        </small>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('location')}" th:errors="*{location}">
+                            주소 형식에 맞게 작성 해주세요.(길이를 확인 해주세요)
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label for="detailsLocation">상세주소</label>
+                        <input id="detailsLocation" type="text" th:field="*{detailsLocation}" class="form-control"
+                               placeholder="123-45번지 혹은 xx아파트 N동" aria-describedby="detailsLocationHelp" required>
+                        <small id="detailsLocationHelp" class="form-text text-muted">
+                            상새주소를 입력해주세요.
+                        </small>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('detailsLocation')}" th:errors="*{detailsLocation}">
+                            상세주소 형식에 맞게 작성 해주세요.(길이를 확인 해주세요)
+                        </small>
+                    </div>
+
+
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-block" type="submit"
+                                aria-describedby="submitHelp">수정하기</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

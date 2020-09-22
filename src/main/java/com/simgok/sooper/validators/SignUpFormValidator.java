@@ -26,8 +26,8 @@ public class SignUpFormValidator implements Validator {
             errors.rejectValue("email", "invalid.email", new Object[]{signUpForm.getEmail()}, "이미 사용중인 이메일입니다.");
         }
 
-        if(accountRepository.existsByName("관리자") || accountRepository.existsByName("admin")) {
-            errors.rejectValue("name", "invalid.name", new Object[]{signUpForm.getName()}, "사용 불가능한 이름입니다.");
+        if(accountRepository.existsByNickName("관리자") || accountRepository.existsByNickName("admin")) {
+            errors.rejectValue("nickName", "invalid.nickName", new Object[]{signUpForm.getNickName()}, "사용 불가능한 닉네임입니다.");
         }
     }
 }

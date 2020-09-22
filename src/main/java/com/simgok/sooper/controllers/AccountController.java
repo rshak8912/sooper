@@ -48,16 +48,16 @@ public class AccountController {
         return "redirect:/";
     }
 
-    @GetMapping("/profile/{id}")
-    public String viewProfile(@PathVariable Long id, Model model, @CurrentUser Account account) {
-        Account byId = accountRepository.readById(id);
-        if (byId == null) {
+    @GetMapping("/profile/{nicknName}")
+    public String viewProfile(@PathVariable String nicknName, Model model, @CurrentUser Account account) {
+        Account byName = accountRepository.findByNickName(nicknName);
+        if (byName == null) {
             new IllegalArgumentException("존재하지 않는 회원입니다.");
         } else {
-            String name = byId.getName();
-            model.addAttribute("account", byId);
+            String name = byName.getNickName();
+            model.addAttribute("account", byName);
             model.addAttribute("isAdmin", (name.equals("관리자") || name.equals("admin")));
-            model.addAttribute("isOwner", byId.equals(account));
+            model.addAttribute("isOwner", byName.equals(account));
         }
 
         return "account/profile";
