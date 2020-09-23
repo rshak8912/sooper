@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 @Data
-@NoArgsConstructor
+
 public class Profile {
 
     @Length(min = 3, max = 20)
@@ -22,10 +22,10 @@ public class Profile {
     @NotBlank
     private String email;
 
-    public Profile(Account account) {
+  /*  public Profile(Account account) {
 
         this.location = account.getLocation();
         this.detailsLocation = account.getDetailsLocation();
         this.email = account.getEmail();
-    }
+    }*/
 }

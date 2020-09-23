@@ -3,6 +3,7 @@ package com.simgok.sooper.services;
 import com.simgok.sooper.model.*;
 import com.simgok.sooper.repositories.AccountRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
@@ -23,6 +24,7 @@ import java.util.List;
 public class AccountService implements UserDetailsService {
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ModelMapper modelMapper;
 
     public Account processNewAccount(SignUpForm signUpForm) {
         return saveNewAccount(signUpForm);
@@ -74,9 +76,8 @@ public class AccountService implements UserDetailsService {
     }
 
     public void updateProfile(Account account, Profile profile) {
-        account.setEmail(profile.getEmail());
-        account.setLocation(profile.getLocation());
-        account.setDetailsLocation(profile.getDetailsLocation());
+        modelMapper.map(profile, account);
+
         accountRepository.save(account);
     }
 }

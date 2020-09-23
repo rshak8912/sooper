@@ -72,10 +72,10 @@ class SettingsControllerTest {
     @DisplayName("프로필 수정하기 - 입력값 에러")
     @Test
     void updateProfile_error() throws Exception {
-        String location = "길게 소개를 수정하는 경우. 길게 소개를 수정하는 경우. 길게 소개를 수정하는 경우. 너무나도 길게 소개를 수정하는 경우. ";
+        String location = "분당구 서현동";
+
         mockMvc.perform(post(SettingsController.SETTINGS_PROFILE_URL)
                 .param("location", location)
-
                 .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(view().name(SettingsController.SETTINGS_PROFILE_VIEW_NAME))
