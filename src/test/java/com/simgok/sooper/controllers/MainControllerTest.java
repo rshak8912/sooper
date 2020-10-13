@@ -1,6 +1,6 @@
 package com.simgok.sooper.controllers;
 
-import com.simgok.sooper.model.SignUpForm;
+import com.simgok.sooper.model.form.SignUpForm;
 import com.simgok.sooper.repositories.AccountRepository;
 import com.simgok.sooper.services.AccountService;
 import org.junit.jupiter.api.AfterEach;
@@ -10,10 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
@@ -37,7 +35,7 @@ class MainControllerTest {
         signUpForm.setDetailsLocation("123-45번지");
         signUpForm.setEmail("rshak123@gmail.com");
         signUpForm.setLocation("분당구 야탑동");
-        signUpForm.setNickName("홍길동");
+        signUpForm.setNickname("홍길동");
         signUpForm.setPassword("123123123");
 
         accountService.processNewAccount(signUpForm);

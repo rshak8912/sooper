@@ -13,7 +13,7 @@ public class Account {
     @Id @GeneratedValue
     private Long id;
 
-    private String nickName;
+    private String nickname;
 
     private String password;
 

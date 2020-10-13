@@ -51,6 +51,8 @@ class AccountControllerTest {
                 .param("password", "12345")
                 .with(csrf()))
                 .andExpect(status().isOk())
+                .andExpect(model().attributeHasErrors("signUpForm"))
+                .andExpect(model().attributeHasFieldErrors("signUpForm","email","password"))
                 .andExpect(view().name("account/sign-up"));
     }
 

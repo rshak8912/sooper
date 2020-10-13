@@ -1,7 +1,7 @@
 package com.simgok.sooper.validators;
 
 
-import com.simgok.sooper.model.SignUpForm;
+import com.simgok.sooper.model.form.SignUpForm;
 import com.simgok.sooper.repositories.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -22,12 +22,15 @@ public class SignUpFormValidator implements Validator {
     @Override
     public void validate(Object object, Errors errors) {
         SignUpForm signUpForm = (SignUpForm)object;
+
         if (accountRepository.existsByEmail(signUpForm.getEmail())) {
             errors.rejectValue("email", "invalid.email", new Object[]{signUpForm.getEmail()}, "이미 사용중인 이메일입니다.");
         }
 
-        if(accountRepository.existsByNickName("관리자") || accountRepository.existsByNickName("admin")) {
-            errors.rejectValue("nickName", "invalid.nickName", new Object[]{signUpForm.getNickName()}, "사용 불가능한 닉네임입니다.");
+        String nickName = signUpForm.getNickname();
+
+        if(nickName.equals("관리자")) {
+            errors.rejectValue("nickname", "invalid.nickname", new Object[]{signUpForm.getNickname()}, "사용 불가능한 닉네임입니다.");
         }
     }
 }

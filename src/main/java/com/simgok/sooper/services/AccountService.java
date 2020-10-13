@@ -1,12 +1,12 @@
 package com.simgok.sooper.services;
 
 import com.simgok.sooper.model.*;
+import com.simgok.sooper.model.form.SignUpForm;
 import com.simgok.sooper.repositories.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -32,12 +32,12 @@ public class AccountService implements UserDetailsService {
 
     private Account saveNewAccount(@Valid SignUpForm signUpForm) {
         Role role = Role.USER;
-        if (signUpForm.getNickName().equals("admin")) {
+        if (signUpForm.getNickname().equals("admin") || signUpForm.getNickname().equals("관리자")) {
             role=Role.ADMIN;
         }
         Account account = Account.builder()
                 .email(signUpForm.getEmail())
-                .nickName(signUpForm.getNickName())
+                .nickname(signUpForm.getNickname())
                 .password(passwordEncoder.encode(signUpForm.getPassword()))
                 .role(role)
                 .location(signUpForm.getLocation())
@@ -48,36 +48,43 @@ public class AccountService implements UserDetailsService {
     }
 
     public void login(Account account) {
-        if (account.getNickName().equals("관리자") || account.getNickName().equals("admin")) {
+
+        if (account.getNickname().equals("관리자") || account.getNickname().equals("admin")) {
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                     new UserAccount(account),
                     account.getPassword(),
                     List.of(new SimpleGrantedAuthority("ROLE_ADMIN")));
             SecurityContextHolder.getContext().setAuthentication(token);
+
+
         } else {
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                     new UserAccount(account),
                     account.getPassword(),
                     List.of(new SimpleGrantedAuthority("ROLE_USER")));
             SecurityContextHolder.getContext().setAuthentication(token);
+
         }
+
     }
 
     @Override
-    public UserDetails loadUserByUsername(String emailOrName) throws UsernameNotFoundException {
-        Account account = accountRepository.findByEmail(emailOrName);
+    public UserDetails loadUserByUsername(String emailOrNickname) throws UsernameNotFoundException {
+
+        Account account = accountRepository.findByEmail(emailOrNickname);
         if (account == null) {
-            account = accountRepository.findByNickName(emailOrName);
+            account = accountRepository.findByNickname(emailOrNickname);
         }
+
         if (account == null) {
-            throw new UsernameNotFoundException(emailOrName);
+            throw new UsernameNotFoundException(emailOrNickname);
         }
+
         return new UserAccount(account);
     }
 
     public void updateProfile(Account account, Profile profile) {
         modelMapper.map(profile, account);
-
         accountRepository.save(account);
     }
 }

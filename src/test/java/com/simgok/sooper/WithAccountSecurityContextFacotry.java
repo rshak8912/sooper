@@ -1,8 +1,6 @@
 package com.simgok.sooper;
 
-import com.simgok.sooper.model.Account;
-import com.simgok.sooper.model.SignUpForm;
-import com.simgok.sooper.repositories.AccountRepository;
+import com.simgok.sooper.model.form.SignUpForm;
 import com.simgok.sooper.services.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,7 +21,7 @@ public class WithAccountSecurityContextFacotry implements WithSecurityContextFac
         String nickname = withAccount.value();
 
         SignUpForm signUpForm = new SignUpForm();
-        signUpForm.setNickName(nickname);
+        signUpForm.setNickname(nickname);
         signUpForm.setEmail(nickname + "@email.com");
         signUpForm.setPassword("12345678");
         accountService.processNewAccount(signUpForm);

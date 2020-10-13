@@ -1,7 +1,7 @@
 package com.simgok.sooper.controllers;
 
 import com.simgok.sooper.model.Account;
-import com.simgok.sooper.model.SignUpForm;
+import com.simgok.sooper.model.form.SignUpForm;
 import com.simgok.sooper.repositories.AccountRepository;
 import com.simgok.sooper.services.AccountService;
 import com.simgok.sooper.settings.CurrentUser;
@@ -48,13 +48,13 @@ public class AccountController {
         return "redirect:/";
     }
 
-    @GetMapping("/profile/{nicknName}")
-    public String viewProfile(@PathVariable String nicknName, Model model, @CurrentUser Account account) {
-        Account byName = accountRepository.findByNickName(nicknName);
+    @GetMapping("/profile/{nickname}")
+    public String viewProfile(@PathVariable String nickname, Model model, @CurrentUser Account account) {
+        Account byName = accountRepository.findByNickname(nickname);
         if (byName == null) {
             new IllegalArgumentException("존재하지 않는 회원입니다.");
         } else {
-            String name = byName.getNickName();
+            String name = byName.getNickname();
             model.addAttribute("account", byName);
             model.addAttribute("isAdmin", (name.equals("관리자") || name.equals("admin")));
             model.addAttribute("isOwner", byName.equals(account));

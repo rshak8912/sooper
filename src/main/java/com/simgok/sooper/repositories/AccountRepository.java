@@ -8,11 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 public interface AccountRepository extends JpaRepository<Account,Long> {
     boolean existsByEmail(String email);
 
-    boolean existsByNickName(String nickName);
+    boolean existsByNickname(String nickname);
 
     Account findByEmail(String email);
 
-    Account findByNickName(String nickName);
+    Account findByNickname(String nickname);
 
     Account readById(Long id);
 }

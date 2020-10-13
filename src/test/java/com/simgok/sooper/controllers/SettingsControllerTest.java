@@ -64,7 +64,7 @@ class SettingsControllerTest {
                 .andExpect(redirectedUrl(SettingsController.SETTINGS_PROFILE_URL));
 
 
-        Account keesun = accountRepository.findByNickName("keesun");
+        Account keesun = accountRepository.findByNickname("keesun");
         assertEquals(location, keesun.getLocation());
     }
 
@@ -83,7 +83,7 @@ class SettingsControllerTest {
                 .andExpect(model().attributeExists("profile"))
                 .andExpect(model().hasErrors());
 
-        Account keesun = accountRepository.findByNickName("keesun");
+        Account keesun = accountRepository.findByNickname("keesun");
         assertNull(keesun.getLocation());
     }
 
