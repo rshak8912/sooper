@@ -1,5 +1,6 @@
 package com.simgok.sooper.controllers;
 
+import com.simgok.sooper.infra.MockMvcTest;
 import com.simgok.sooper.WithAccount;
 import com.simgok.sooper.model.Account;
 import com.simgok.sooper.repositories.AccountRepository;
@@ -8,8 +9,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,8 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@MockMvcTest
 class SettingsControllerTest {
     @Autowired
     MockMvc mockMvc;
@@ -46,7 +44,7 @@ class SettingsControllerTest {
                 .andExpect(model().attributeExists("profile"));
     }
 
-    @WithAccount("keesun")
+    @WithAccount("gildong")
     @DisplayName("프로필 수정하기 - 입력값 정상")
     @Test
     void updateProfile() throws Exception {
@@ -64,11 +62,11 @@ class SettingsControllerTest {
                 .andExpect(redirectedUrl(SettingsController.SETTINGS_PROFILE_URL));
 
 
-        Account keesun = accountRepository.findByNickname("keesun");
+        Account keesun = accountRepository.findByNickname("gildong");
         assertEquals(location, keesun.getLocation());
     }
 
-    @WithAccount("keesun")
+    @WithAccount("gildong")
     @DisplayName("프로필 수정하기 - 입력값 에러")
     @Test
     void updateProfile_error() throws Exception {
@@ -83,7 +81,7 @@ class SettingsControllerTest {
                 .andExpect(model().attributeExists("profile"))
                 .andExpect(model().hasErrors());
 
-        Account keesun = accountRepository.findByNickname("keesun");
+        Account keesun = accountRepository.findByNickname("gildong");
         assertNull(keesun.getLocation());
     }
 

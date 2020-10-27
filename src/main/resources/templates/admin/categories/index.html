@@ -9,9 +9,24 @@
         <h2 class="display-3">카테고리</h2>
         <a href="#" th:href="@{/admin/categories/add}" class="btn btn-primary mb-5">카테고리 등록</a>
     </div>
-    <div class="text-center">
-        adads
+    <div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"></div>
+    <div th:if="${!categories.empty}">
+        <table class="table sorting" id="categories">
+            <tr class="home">
+                <th>이름</th>
+                <th>삭제</th>
+            </tr>
+            <tr th:each="category: ${categories}">
+                <td th:text="${category.name}"></td>
+
+                <td><a th:href="@{'/admin/categories/delete/' + ${category.id}}" class="confirmDeletion">삭제</a></td>
+            </tr>
+        </table>
     </div>
+    <div th:unless="${!categories.empty}">
+        <h4 class="display-5" >카테고리가 존재하지 않습니다. 카테고리를 추가해 주세요.</h4>
+    </div>
+
 </div>
 <div th:replace="fragments :: footer"></div>
 </body>

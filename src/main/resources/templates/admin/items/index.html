@@ -1,10 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+<body class="bg-light">
+<div th:replace="fragments :: admin-nav"></div>
+<div class="container">
+    <div class="p-5">
+        <h2 class="display-3">상품</h2>
+        <a href="#" th:href="@{/admin/items/add}" class="btn btn-primary mb-5">상품 등록</a>
+    </div>
+    <div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"></div>
 
+    <div th:if="${!items.empty}">
+        <table class="table">
+            <tr>
+                <th>상품 이름</th>
+                <th>상품 이미지</th>
+                <th>카테고리</th>
+                <th>가격 </th>
+                <th>재고 수량</th>
+                <th>편집</th>
+                <th>삭제</th>
+            </tr>
+            <tr th:each="item: ${items}">
+                <td th:text="${item.name}"></td>
+                <td><img style="width: 100px;" th:src="@{'/media/' + ${item.image}}"></td>
+                <td th:text="${item.category.name}"></td>
+                <td th:text="${item.price} + '원'"></td>
+                <td th:text="${item.stockQuantity} + '개'"></td>
+                <td><a class="btn btn-info" th:href="@{'/admin/items/' + ${item.id} + '/edit'}">편집</a></td>
+                <td>
+                    <form th:action = "@{'/admin/items/' + ${item.name}}" th:method="delete">
+                        <button class="btn btn-danger" type="submit" aria-describedby="submitHelp"><i class="far fa-trash-alt"></i></button>
+                    </form>
+                <td>
+            </tr>
+        </table>
+    </div>
+    <div th:unless="${!items.empty}">
+        <h4 class="display-5 pb-3" >상품이 존재하지 않습니다. 상품을 추가해 주세요.</h4>
+    </div>
+</div>
+<div th:replace="fragments :: footer"></div>
 </body>
 </html>

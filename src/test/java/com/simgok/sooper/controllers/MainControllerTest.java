@@ -1,5 +1,6 @@
 package com.simgok.sooper.controllers;
 
+import com.simgok.sooper.infra.MockMvcTest;
 import com.simgok.sooper.model.form.SignUpForm;
 import com.simgok.sooper.repositories.AccountRepository;
 import com.simgok.sooper.services.AccountService;
@@ -8,8 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -18,8 +17,7 @@ import static org.springframework.security.test.web.servlet.response.SecurityMoc
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@MockMvcTest
 class MainControllerTest {
     @Autowired
     MockMvc mockMvc;
@@ -42,7 +40,7 @@ class MainControllerTest {
     }
 
     @AfterEach
-    public void afterEach() {
+    void afterEach() {
         accountRepository.deleteAll();
     }
 

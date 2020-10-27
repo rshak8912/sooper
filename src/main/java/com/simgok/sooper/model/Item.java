@@ -1,5 +1,6 @@
 package com.simgok.sooper.model;
 
+import com.simgok.sooper.exception.NotEnoughStockException;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import static javax.persistence.FetchType.*;
 @Entity
 @Getter @Setter @EqualsAndHashCode(of="id")
 @Builder @AllArgsConstructor @NoArgsConstructor
+@ToString(exclude = "category")
 public class Item {
     @Id  @GeneratedValue
     @Column(name="item_id")
@@ -17,9 +19,9 @@ public class Item {
 
     private String name;
 
-    private Integer price;
+    private int price;
 
-    private Integer stockQuantity;
+    private int stockQuantity;
 
     @ManyToOne(cascade = ALL, fetch = LAZY)
     @JoinColumn(name="category_id")
@@ -28,4 +30,17 @@ public class Item {
     @Column(unique = true)
     private String path;
 
+    private String image;
+
+    public void removeStock(int orderQuantity) {
+        int restStock = this.stockQuantity - orderQuantity;
+        if (restStock < 0) {
+            throw new NotEnoughStockException("재고가 부족합니다.");
+        }
+        this.stockQuantity = restStock;
+    }
+
+    public void addStock(int quantity) {
+        this.stockQuantity += quantity;
+    }
 }

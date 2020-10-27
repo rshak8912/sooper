@@ -10,10 +10,10 @@
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-
     <style>
-        .container {
-            max-width: 100%;
+        .footer {
+            position: absolute;
+            height:100px;
         }
     </style>
 </head>
@@ -29,10 +29,10 @@
     <div class="collapse navbar-collapse" id="admin-navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="#" th:href="@{/admin/categories/index}">카테고리</a>
+                <a class="nav-link" href="#" th:href="@{/admin/categories}">카테고리</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" th:href="@{/admin/items/index}">상품</a>
+                <a class="nav-link" href="#" th:href="@{/admin/items}">상품</a>
             </li>
 
         </ul>
@@ -50,6 +50,7 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-sm-right" aria-labelledby="userDropdown">
                     <a class="dropdown-item" th:href="@{'/profile/' + ${#authentication.name}}">내 프로필</a>
+                    <a class="dropdown-item" th:href="@{/admin}">관리자 페이지</a>
                     <a class="dropdown-item" href="#" th:href="@{'/settings/profile'}">설정</a>
                     <form class="form-inline my-2 my-lg-0" action="#" th:action="@{/logout}" method="post">
                         <button class="dropdown-item" type="submit">로그아웃</button>
@@ -72,16 +73,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="#" th:href="@{/town-notice}">동네 소식</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" th:href="@{/sooper-notice}">수퍼 소식</a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" href="#" th:href="@{/order}">상품 주문</a>
             </li>
             <li class="nav-item pl-3">
-                <form th:action="@{/search/item}" class="form-inline" method="get">
+                <form th:action="@{/search}" class="form-inline" method="get">
                     <input class="form-control mr-sm-2" name="keyword" type="search" placeholder="상품 검색" aria-label="Search" />
                     <button class="btn btn-primary fas fa-search"></button>
                 </form>
@@ -101,6 +96,7 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-sm-right" aria-labelledby="userDropdown">
                     <a class="dropdown-item" th:href="@{'/profile/' + ${#authentication.name}}">내 프로필</a>
+                    <a class="dropdown-item" sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin}">관리자 페이지</a>
                     <a class="dropdown-item" href="#" th:href="@{'/settings/profile'}">설정</a>
                     <form class="form-inline my-2 my-lg-0" action="#" th:action="@{/logout}" method="post">
                         <button class="dropdown-item" type="submit">로그아웃</button>
@@ -110,12 +106,15 @@
         </ul>
     </div>
 </nav>
-
 <footer th:fragment="footer">
-    <div class="row justify-content-center">
-        <img class="mb-2" src="/images/logo.png" alt="" width="100">
-        <small class="d-block mb-3 text-muted">&copy; 2020</small>
+    <div class="container">
+        <div class="row justify-content-center">
+            <img src="/images/logo.png" alt="logo" width="100">
+            <small class="d-block mb-3 text-muted">&copy; 2020</small>
+        </div>
     </div>
+
+    <script th:src="@{/js/app.js}"></script>
 </footer>
 <script type="application/javascript" th:fragment="form-validation">
     (function () {

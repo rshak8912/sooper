@@ -4,10 +4,12 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 @Data
 public class CategoryForm {
     @NotBlank
-    @Length(min = 1, max = 10)
+    @Length(min = 1, max = 20)
     private String name;
+
 }

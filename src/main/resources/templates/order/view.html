@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments.html :: head"></head>
+<body class="bg-light">
+<div th:replace="fragments.html :: main-nav"></div>
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>회원명</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${orders}">
+            <td th:text="${item.id}"></td>
+            <td th:text="${item.member.nickname}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <div th:replace="fragments.html :: footer"></div>
+</div>
+<script th:replace="fragments.html :: form-validation"></script>
+</body>
+</html>

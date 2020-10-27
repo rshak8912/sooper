@@ -1,6 +1,7 @@
 package com.simgok.sooper.model;
 
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,12 +11,13 @@ import java.util.List;
 @Getter @Setter @EqualsAndHashCode(of="id")
 @Builder @AllArgsConstructor @NoArgsConstructor
 public class Category {
-    @Id @GeneratedValue
+    @Id @GeneratedValue()
     @Column(name="category_id")
     private Long id;
 
     private String name;
-
+/*
+    private String path;*/
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Item> items = new ArrayList<>();
 

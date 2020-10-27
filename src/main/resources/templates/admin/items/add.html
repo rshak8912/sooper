@@ -1,10 +1,103 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+<body class="bg-light">
+<div th:replace="fragments :: admin-nav"></div>
+<div class="container">
+
+    <div class="row py-5 justify-content-center">
+        <h2>상품 등록</h2>
+    </div>
+    <div class="row py-5 justify-content-center text-center" th:if="${message}" th:text="${message}"
+         th:class="${'alert ' + alertClass}"></div>
+    <div class="row justify-content-center">
+        <form class="needs-validation col-sm-6" action="#"
+              th:action="@{/admin/items/add}" th:object="${itemForm}" method="post" novalidate
+              enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="name">상품 이름</label>
+                <input id="name" type="text" th:field="*{name}" class="form-control"
+                       placeholder="등록할 상품의 이름을 작성하세요" aria-describedby="nameHelp" required minlength="1"
+                       maxlength="30">
+                <small id="nameHelp" class="form-text text-muted">
+                    공백없이 문자와 숫자로만 1자 이상 30자 이내로 입력하세요.
+                </small>
+                <small class="invalid-feedback">상품이름을 입력하세요.</small>
+                <small class="form-text text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">name
+                    Error</small>
+            </div>
+            <div class="form-group">
+                <label for="category">카테고리</label>
+                <select id="category" th:field="*{category}" class="form-control" required>
+                    <option th:value="0">카테고리를 선택하세요.</option>
+                    <option th:each="cat: ${category}" th:value="${cat.id}" th:text="${cat.name}"></option>
+                </select>
+                <small id="categoryHelp" class="form-text text-muted">
+                    카테고리를 선택하세요.
+                </small>
+                <small class="invalid-feedback">카테고리를 선택하세요.</small>
+                <small class="form-text text-danger" th:if="${#fields.hasErrors('category')}" th:errors="*{category}">category
+                    Error</small>
+            </div>
+
+            <div class="form-group">
+                <label for="price">가격</label>
+                <input id="price" type="number" th:field="*{price}" class="form-control"
+                       aria-describedby="priceHelp" required min="0">
+                <small id="priceHelp" class="form-text text-muted">
+                    최소 금액은 0원입니다.
+                </small>
+                <small class="invalid-feedback">상품 가격을 입력하세요.</small>
+                <small class="form-text text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">price
+                    Error</small>
+            </div>
+
+            <div class="form-group">
+                <label for="stockQuantity">재고 수량</label>
+                <input id="stockQuantity" type="number" th:field="*{stockQuantity}" class="form-control"
+                       aria-describedby="stockQuantityHelp" required min="0">
+                <small id="stockQuantityHelp" class="form-text text-muted">
+                    최소 수량은 0개입니다.
+                </small>
+                <small class="invalid-feedback">0개 이상의 숫자를 입력하세요.</small>
+                <small class="form-text text-danger" th:if="${#fields.hasErrors('stockQuantity')}"
+                       th:errors="*{stockQuantity}">stockQuantity Error</small>
+            </div>
+
+            <div class="form-group">
+                <label for="path">상품 url 경로</label>
+                <input id="path" type="text" th:field="*{path}" class="form-control"
+                       placeholder="등록할 상품의 접속 url을 작성하세요" aria-describedby="pathHelp" required>
+                <small id="pathHelp" class="form-text text-muted">
+                    URL 경로를 입력하세요.
+                </small>
+                <small class="invalid-feedback">상품 URL을 입력하세요.</small>
+                <small class="form-text text-danger" th:if="${#fields.hasErrors('path')}" th:errors="*{path}">path
+                    Error</small>
+            </div>
+            <div class="form-group">
+                <label for="image">상품 이미지</label>
+                <input type="file" class="form-control" th:name="image" th:id="image" id="image">
+                <img class="mt-2" src="#" alt="" id="imgPreview1" th:id="imgPreview1">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary btn-block" type="submit"
+                        aria-describedby="submitHelp">등록
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<div th:replace="fragments :: footer"></div>
+<script th:replace="fragments.html :: form-validation"></script>
+<script>
+    $(function () {
+        $("#image").change(function () {
+            readURL(this, '1');
+        });
+    });
+</script>
 
 </body>
 </html>
