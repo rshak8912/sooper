@@ -8,10 +8,12 @@ import com.simgok.sooper.repositories.AccountRepository;
 import com.simgok.sooper.repositories.ItemRepository;
 import com.simgok.sooper.repositories.OrderRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.lang.Nullable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -45,6 +47,7 @@ public class OrderService {
         Optional<Order> order = orderRepository.findById(orderId);
         order.orElseThrow(NoSuchElementException::new).cancel();
     }
+
     public Order createOrder(Account account, OrderItem... orderItems) {
         Order order = new Order();
         order.setAccount(account);
@@ -53,7 +56,7 @@ public class OrderService {
             order.addOrderItem(orderItem);
         }
 
-        order.setOrderDate(LocalDateTime.now());
+        order.setOrderDate(LocalDate.now());
 
         return order;
     }
@@ -69,4 +72,8 @@ public class OrderService {
 
     }
 
+
+    public Page<Item> searchResult(String keyword, Pageable pageable) {
+        return itemRepository.findByKeyword(keyword, pageable);
+    }
 }

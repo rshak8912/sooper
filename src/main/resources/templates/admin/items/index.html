@@ -12,7 +12,7 @@
     <div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"></div>
 
     <div th:if="${!items.empty}">
-        <table class="table">
+        <table class="table table-striped">
             <tr>
                 <th>상품 이름</th>
                 <th>상품 이미지</th>
@@ -28,9 +28,9 @@
                 <td th:text="${item.category.name}"></td>
                 <td th:text="${item.price} + '원'"></td>
                 <td th:text="${item.stockQuantity} + '개'"></td>
-                <td><a class="btn btn-info" th:href="@{'/admin/items/' + ${item.id} + '/edit'}">편집</a></td>
+                <td><a class="btn btn-info" th:href="@{'/admin/items/edit/' + ${item.id}}">편집</a></td>
                 <td>
-                    <form th:action = "@{'/admin/items/' + ${item.name}}" th:method="delete">
+                    <form th:action = "@{'/admin/items/delete/' + ${item.id}}" th:method="get">
                         <button class="btn btn-danger" type="submit" aria-describedby="submitHelp"><i class="far fa-trash-alt"></i></button>
                     </form>
                 <td>

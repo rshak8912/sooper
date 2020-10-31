@@ -9,16 +9,32 @@
         <thead>
         <tr>
             <th>#</th>
-            <th>회원명</th>
+            <th>상품 이미지</th>
+            <th>상품 이름</th>
+            <th>상품 가격</th>
+            <th>상품 수량</th>
+            <th>주문 날짜</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="item : ${orders}">
-            <td th:text="${item.id}"></td>
-            <td th:text="${item.member.nickname}"></td>
+        <tr th:each="product : ${orders}">
+            <td th:text="${product.id}"></td>
+            <td>
+                <img style="width: 100px;" th:src="@{'/media/' + ${product.orderItems[0].item.image}}" />
+            </td>
+            <td th:text="${product.orderItems[0].item.name}"></td>
+            <td th:text="${product.orderItems[0].item.price}"></td>
+            <td>
+                <span th:text="${product.orderItems[0].count}"></span>
+            </td>
+            <td th:text="${product.orderDate}"></td>
         </tr>
         </tbody>
+
     </table>
+    <div>
+        <span th:text="'총 주문 금액 : ' + ${totalPrice}"></span>
+    </div>
     <div th:replace="fragments.html :: footer"></div>
 </div>
 <script th:replace="fragments.html :: form-validation"></script>

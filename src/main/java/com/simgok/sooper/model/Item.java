@@ -43,4 +43,5 @@ public class Item {
     public void addStock(int quantity) {
         this.stockQuantity += quantity;
     }
+
 }

@@ -6,49 +6,54 @@
 <div style="padding-bottom: 100px;" class="container">
     <div class="row">
         <div class="py-5 text-center">
-            <p class="lead" th:if="${searchCount == 0}">
+            <p class="lead" th:if="${searchList.getTotalElements() == 0}">
                 <strong th:text="${keyword}" id="keyword" class="context"></strong>에 해당하는 상품이 없습니다
             </p>
-            <p class="lead" th:if="${searchCount > 0}">
+            <p class="lead" th:if="${searchList.getTotalElements() > 0}">
                 <strong th:text="${keyword}" id="keyword" class="context"></strong>에 해당하는 상품을
                 <span th:text="${searchCount}"></span>개 찾았습니다.
             </p>
         </div>
     </div>
     <div class="row">
-
         <div class="col-4" th:each="search:${searchList}">
+            <form th:action="@{'/order/' + ${accountId} + '/item/' + ${search.id}}" th:method="post">
                 <p><img src="" style="width:200px;" th:src="@{'/media/' + ${search.image}}" alt=""></p>
                 <h4 th:text="${search.name}"></h4>
                 <p th:text="${search.price} + '원'"></p>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                    장바구니에 담기
-                </button>
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">장바구니 메시지</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                선택한 상품이 장바구니에 담겼습니다.<br>
-                                장바구니로 이동하시겠습니까?
-                            </div>
-                            <div class="modal-footer">
-                                <form th:action="@{'/order/' + ${accountId} + '/item/' + ${search.id}}" method="post">
-                                      <button type="submit" class="btn btn-primary">이동</button>
-                                </form>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                            </div>
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <input id="count" type="number" name="count" class="form-control" th:value="0">
                 </div>
+                <button type="submit" class="btn btn-primary">장바구니에 담기</button>
+            </form>
         </div>
-
     </div>
+    <div class="row justify-content-center">
+        <div class="col-sm-10">
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" th:classappend="${!searchList.hasPrevious()}? disabled">
+                        <a th:href="@{'/search?keyword=' + ${keyword} + '&page=' + ${searchList.getNumber() - 1}}"
+                           class="page-link" tabindex="-1" aria-disabled="true">
+                            이전
+                        </a>
+                    </li>
+                    <li class="page-item" th:classappend="${i == searchList.getNumber()}? active"
+                        th:each="i: ${#numbers.sequence(0, searchList.getTotalPages() - 1)}">
+                        <a th:href="@{'/search?keyword=' + ${keyword} + '&page=' + ${i}}"
+                           class="page-link" href="#" th:text="${i + 1}">1</a>
+                    </li>
+                    <li class="page-item" th:classappend="${!searchList.hasNext()}? disabled">
+                        <a th:href="@{'/search?keyword=' + ${keyword} + '&page=' + ${searchList.getNumber() + 1}}"
+                           class="page-link">
+                            다음
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
 </div>
 <div th:replace="fragments :: footer"></div>
 </body>

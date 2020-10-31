@@ -4,9 +4,78 @@
 <head th:replace="fragments :: head"></head>
 <body class="bg-light">
 <div th:replace="fragments :: admin-nav"></div>
-<div class="container">
+    <div class="container">
+        <h1 class="display-2" th:text="${itemName}"></h1>
+        <a href="/admin/items" class="btn btn-primary mb-5">뒤로 가기</a>
 
-</div>
+        <div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"></div>
+
+        <form method="post" th:method="post" th:object="${itemEditForm}" th:action="@{/admin/items/edit}" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="name">상품 이름</label>
+                <input id="name" type="text" th:field="*{name}" class="form-control"
+                       placeholder="상품 이름" aria-describedby="nameHelp">
+            </div>
+            <div class="form-group">
+                <label for="category">카테고리</label>
+                <select id="category" th:field="*{category}" class="form-control">
+                    <option th:value="0">카테고리를 선택하세요.</option>
+                    <option th:each="cat: ${categories}" th:value="${cat.id}" th:text="${cat.name}"></option>
+                </select>
+                <small id="categoryHelp" class="form-text text-muted">
+                    카테고리를 선택하세요.
+                </small>
+            </div>
+            <div class="form-group">
+                <label for="price">가격</label>
+                <input id="price" type="number" th:field="*{price}" class="form-control"
+                       placeholder="상품 가격" aria-describedby="priceHelp" required>
+                <small id="priceHelp" class="form-text text-muted">
+                    상품 가격을 작성 해주세요.
+                </small>
+                <small class="form-text text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">
+                    최소 금액은 0원입니다.
+                </small>
+            </div>
+            <div class="form-group">
+                <label for="stockQuantity">재고 수량</label>
+                <input id="stockQuantity" type="number" th:field="*{stockQuantity}" class="form-control"
+                       placeholder="재고 수량" aria-describedby="stockQuantityHelp" required>
+                <small id="stockQuantityHelp" class="form-text text-muted">
+                    재고 수량을 작성 해주세요.
+                </small>
+                <small class="form-text text-danger" th:if="${#fields.hasErrors('stockQuantity')}" th:errors="*{stockQuantity}">
+                    최소 수량은 0개입니다.
+                </small>
+            </div>
+
+            <div class="form-group">
+                <label for="path">상품 url 경로</label>
+                <input id="path" type="hidden" th:value="${itemName}" th:field="*{path}" class="form-control"
+                       placeholder="상품 경로" aria-describedby="pathHelp" required>
+                <small id="pathHelp" class="form-text text-muted">
+                    상품 경로를 입력하세요.
+                </small>
+            </div>
+
+            <div class="form-group">
+                <label for="file">이미지</label>
+                <input id="file" type="file" class="form-control" th:name="file" th:id="file">
+                <img class="mt-2" src="#" alt="" id="imgPreview1">
+            </div>
+
+            <button class="btn btn-danger mb-5">수정</button>
+        </form>
+
+
+    </div>
 <div th:replace="fragments :: footer"></div>
+<script>
+    $(function () {
+        $("#file").change(function () {
+            readURL(this, '1');
+        });
+    });
+</script>
 </body>
 </html>

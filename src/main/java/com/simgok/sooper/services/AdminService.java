@@ -22,7 +22,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-
 public class AdminService {
 
     private final CategoryRepository categoryRepository;
@@ -76,5 +75,25 @@ public class AdminService {
 
     public Optional<Item> findItem(Long itemId) {
         return itemRepository.findById(itemId);
+    }
+
+    public Item getEditItem(Long itemId) {
+        return itemRepository.findById(itemId).orElseGet(Item::new);
+    }
+
+    public Item getItemById(Long id) {
+        return itemRepository.findById(id).orElseGet(Item::new);
+    }
+
+    public void deleteItem(Long id) {
+        itemRepository.deleteById(id);
+    }
+
+    public Item findItemByName(String name) {
+        return itemRepository.findByName(name);
+    }
+
+    public Long getItemIdByName(String originalItemName) {
+        return itemRepository.findByName(originalItemName).getId();
     }
 }

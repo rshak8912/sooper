@@ -1,7 +1,9 @@
 package com.simgok.sooper.controllers;
 
 import com.simgok.sooper.model.Account;
+import com.simgok.sooper.model.Item;
 import com.simgok.sooper.model.Order;
+import com.simgok.sooper.repositories.ItemRepository;
 import com.simgok.sooper.services.OrderService;
 import com.simgok.sooper.settings.CurrentUser;
 import lombok.RequiredArgsConstructor;
@@ -11,8 +13,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -20,7 +24,7 @@ import java.util.List;
 public class OrderController {
 
     private final OrderService orderService;
-
+    private final ItemRepository itemRepository;
     /*
      *
      * 주문 내역 화면
@@ -28,7 +32,13 @@ public class OrderController {
     @GetMapping("/order/view")
     public String orderPage(@CurrentUser Account account, Model model) {
         List<Order> orders = orderService.getAllOrders(account);
+
+        int totalPrice = 0;
+        for (Order order : orders) {
+            totalPrice += order.getTotalPrice();
+        }
         model.addAttribute("orders", orders);
+        model.addAttribute("totalPrice", totalPrice);
         return "order/view";
     }
 
@@ -42,9 +52,11 @@ public class OrderController {
     }
 
     @PostMapping("/order/{accountId}/item/{itemId}")
-    public String orderPage(@PathVariable("accountId") Long accountId, @PathVariable("itemId") Long itemId){
-        int count = 1;
-        orderService.order(accountId, itemId, count = 1);
+    public String orderPage(int count,
+                            @PathVariable("accountId") Long accountId,
+                            @PathVariable("itemId") Long itemId) throws Exception{
+
+        orderService.order(accountId, itemId, count);
         return "redirect:/order/view";
     }
   /*  *//*
